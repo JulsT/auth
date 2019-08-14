@@ -28,7 +28,6 @@
     "eject": "react-scripts eject",
     "lint:fix": "eslint src/**/*.js --fix"
   },
-  "proxy": "https://enigmatic-earth-19515.herokuapp.com",
   "eslintConfig": {
     "extends": "react-app"
   },

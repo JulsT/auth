@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as actionTypes from './actionTypes';
 
 export const recieveUser = token => dispatch => axios
-  .get('/api/v1/users/me', {
+  .get('https://enigmatic-earth-19515.herokuapp.com/api/v1/users/me', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -15,7 +15,7 @@ export const recieveUser = token => dispatch => axios
 export const signup = (data, history) => (dispatch) => {
   dispatch({ type: actionTypes.SIGNUP_REQUEST });
   axios
-    .post('/api/v1/users', data)
+    .post('https://enigmatic-earth-19515.herokuapp.com/api/v1/users', data)
     .then((res) => {
       localStorage.setItem('token', res.data.token);
       dispatch({ type: actionTypes.SIGNUP_SUCCESS, payload: res.data });
@@ -30,7 +30,7 @@ export const signup = (data, history) => (dispatch) => {
 export const login = (data, history) => (dispatch) => {
   dispatch({ type: actionTypes.LOGIN_REQUEST });
   axios
-    .post('/api/v1/users/login', data)
+    .post('https://enigmatic-earth-19515.herokuapp.com/api/v1/users/login', data)
     .then((res) => {
       localStorage.setItem('token', res.data.token);
       dispatch({ type: actionTypes.LOGIN_SUCCESS, payload: res.data });
@@ -43,7 +43,7 @@ export const login = (data, history) => (dispatch) => {
 };
 
 export const logout = () => (dispatch) => {
-  axios.get('/api/v1/users/logout').then(() => {
+  axios.get('https://enigmatic-earth-19515.herokuapp.com/api/v1/users/logout').then(() => {
     localStorage.removeItem('token');
     dispatch({ type: actionTypes.LOGOUT });
   });
@@ -52,7 +52,7 @@ export const logout = () => (dispatch) => {
 export const editUser = data => (dispatch, getState) => {
   const updatedUser = { data, _id: getState().userId };
   axios
-    .put('/api/v1/users/me', updatedUser, {
+    .put('https://enigmatic-earth-19515.herokuapp.com/api/v1/users/me', updatedUser, {
       headers: {
         'Content-Type': 'application/json',
       },
