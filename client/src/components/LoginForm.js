@@ -80,7 +80,7 @@ class LoginForm extends Component {
               />
               <StyledError component="span" name="password" />
               <Error tab={tab} error={error} />
-              <Button name="LOGIN" />
+              <Button name="SIGN-IN" />
             </Form>
           )}
         </Formik>
