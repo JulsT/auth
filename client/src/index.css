@@ -26,7 +26,6 @@ body {
 #root {
   display: flex;
   min-height: 100vh;
-  min-height: -webkit-fill-available;
   flex-direction: column;
   height: 100%;
 }
