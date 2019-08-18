@@ -1,8 +1,9 @@
 import axios from 'axios';
 import * as actionTypes from './actionTypes';
+import config from '../config';
 
-export const recieveUser = token => dispatch => axios
-  .get('https://enigmatic-earth-19515.herokuapp.com/api/v1/users/me', {
+export const recieveUser = (token) => (dispatch) => axios
+  .get(`${config.API_URL}/users/me`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -10,12 +11,12 @@ export const recieveUser = token => dispatch => axios
   .then((res) => {
     dispatch({ type: actionTypes.FETCH_USER_DATA, payload: res.data });
   })
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 
 export const signup = (data, history) => (dispatch) => {
   dispatch({ type: actionTypes.SIGNUP_REQUEST });
   axios
-    .post('https://enigmatic-earth-19515.herokuapp.com/api/v1/users', data)
+    .post(`${config.API_URL}/users`, data)
     .then((res) => {
       localStorage.setItem('token', res.data.token);
       dispatch({ type: actionTypes.SIGNUP_SUCCESS, payload: res.data });
@@ -30,7 +31,7 @@ export const signup = (data, history) => (dispatch) => {
 export const login = (data, history) => (dispatch) => {
   dispatch({ type: actionTypes.LOGIN_REQUEST });
   axios
-    .post('https://enigmatic-earth-19515.herokuapp.com/api/v1/users/login', data)
+    .post(`${config.API_URL}/users/login`, data)
     .then((res) => {
       localStorage.setItem('token', res.data.token);
       dispatch({ type: actionTypes.LOGIN_SUCCESS, payload: res.data });
@@ -43,16 +44,16 @@ export const login = (data, history) => (dispatch) => {
 };
 
 export const logout = () => (dispatch) => {
-  axios.get('https://enigmatic-earth-19515.herokuapp.com/api/v1/users/logout').then(() => {
+  axios.get(`${config.API_URL}/users/logout`).then(() => {
     localStorage.removeItem('token');
     dispatch({ type: actionTypes.LOGOUT });
   });
 };
 
-export const editUser = data => (dispatch, getState) => {
+export const editUser = (data) => (dispatch, getState) => {
   const updatedUser = { data, _id: getState().userId };
   axios
-    .put('https://enigmatic-earth-19515.herokuapp.com/api/v1/users/me', updatedUser, {
+    .put(`${config.API_URL}/users/me`, updatedUser, {
       headers: {
         'Content-Type': 'application/json',
       },
