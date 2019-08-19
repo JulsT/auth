@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 import ProfileForm from '../components/ProfileForm';
 import { editUser } from '../actions';
+import Error from '../components/Error';
 
 const Container = styled.div`
   max-width: 700px;
@@ -14,29 +16,41 @@ const Container = styled.div`
   font-size: 1.2rem;
 `;
 
-class ProfilePage extends Component {
-  state = {};
+const ProfilePage = ({
+  // eslint-disable-next-line no-shadow
+  user,
+  // eslint-disable-next-line no-shadow
+  editUser,
+  error,
+  editUserSuccess,
+}) => (
+  <Container>
+    Edit your Profile
+    <ProfileForm user={user} editUser={editUser} error={error} />
+    <Error successMsg={editUserSuccess} message="User edited" />
+  </Container>
+);
 
-  render() {
-    // eslint-disable-next-line no-shadow
-    // eslint-disable-next-line react/prop-types
-    const { user, editUser, error } = this.props;
-    return (
-      <Container>
-        Edit your Profile
-        <ProfileForm user={user} editUser={editUser} error={error} />
-      </Container>
-    );
-  }
-}
+ProfilePage.propTypes = {
+  user: PropTypes.shape({
+    name: PropTypes.string,
+    email: PropTypes.string,
+    password: PropTypes.string,
+    country: PropTypes.string,
+  }),
+  editUser: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  editUserSuccess: PropTypes.bool,
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.user,
   token: state.token,
   error: state.error,
+  editUserSuccess: state.editUserSuccess,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     editUser,
   },

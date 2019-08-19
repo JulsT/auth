@@ -10,7 +10,7 @@ const Container = styled.div`
 const Slide = styled.div`
   height: 100%;
   width: 100%;
-  background-image: url(${props => props.src});
+  background-image: url(${(props) => props.src});
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

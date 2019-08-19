@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const StyledNav = styled.ul`
   margin: 0;
@@ -94,5 +95,9 @@ const Navbar = ({ logout, isAuthenticated }) => (
     )}
   </StyledNav>
 );
+Navbar.propTypes = {
+  logout: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+};
 
 export default Navbar;

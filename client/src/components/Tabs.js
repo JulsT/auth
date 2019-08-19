@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import Tab from './Tab';
 
 const TabsContainer = styled.ul`
@@ -13,19 +14,19 @@ const TabsContainer = styled.ul`
 class Tabs extends Component {
   state = {
     activeTab: this.props.children[0].props.label,
-  };
-
+	};
+	
   handleChangeTab = (tab) => {
     this.setState({ activeTab: tab });
   };
 
   render() {
     const { activeTab } = this.state;
-    const { children } = this.props;
+		const { children } = this.props;
     return (
       <>
         <TabsContainer>
-          {children.map(child => (
+          {children.map((child) => (
             <Tab
               activeTab={activeTab}
               key={child.props.label}
@@ -41,6 +42,10 @@ class Tabs extends Component {
       </>
     );
   }
+}
+
+Tabs.propTypes = {
+	children: PropTypes.arrayOf(PropTypes.element.isRequired)
 }
 
 export default Tabs;

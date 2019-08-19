@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import * as Yup from 'yup';
 import {
   Form, Field, Formik, ErrorMessage,
 } from 'formik';
 import { CountryDropdown } from 'react-country-region-selector';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import Button from './Button';
 
 const validationSchema = Yup.object().shape({
@@ -42,7 +43,7 @@ const StyledField = styled(Field)`
   appearance: none;
   width: 100%;
   color: gray;
-  border: 1px solid ${props => (props.error ? '#ff0000' : '#c9d0e1')};
+  border: 1px solid ${(props) => (props.error ? '#ff0000' : '#c9d0e1')};
   border-radius: 5px;
   padding: 1rem;
   cursor: pointer;
@@ -66,75 +67,82 @@ const dropdownStyles = {
   boxShadow: '0 8px 6px -6px black',
 };
 
-class ProfileForm extends Component {
-  state = {};
-
-  render() {
-    const { user, editUser, error } = this.props;
-    let propsValues = {
-      name: '', email: '', password: '', country: '',
-    };
-    if (user) {
-      const { password, ...userProps } = user;
-      propsValues = { ...propsValues, ...userProps };
-    }
-    return (
-      <>
-        <Formik
-          enableReinitialize={true}
-          initialValues={propsValues}
-          validationSchema={validationSchema}
-          onSubmit={(values, isValid) => {
-            if (isValid) {
-              let user;
-              if (values.password !== '') {
-                user = {
-                  name: values.name,
-                  email: values.email,
-                  password: values.password,
-                  country: values.country,
-                };
-              } else {
-                user = {
-                  name: values.name,
-                  email: values.email,
-                  country: values.country,
-                };
-              }
-              editUser(user);
-            }
-          }}
-        >
-          {({
-            values, errors, handleChange,
-          }) => (
-            <Form>
-              <StyledField type="text" name="name" placeholder="Your name" />
-              <StyledField error={errors.email} type="text" name="email" placeholder="Your email" />
-              <StyledError component="span" name="email" />
-              <StyledField
-                error={errors.password}
-                type="password"
-                name="password"
-                placeholder="Change password"
-              />
-              <StyledError component="span" name="password" />
-              <CountryDropdown
-                style={dropdownStyles}
-                defaultOptionLabel="Select a country, man."
-                value={values.country}
-                name="country"
-                onChange={(_, val) => handleChange(val)}
-              />
-              {error ? <CustomError>{error}</CustomError> : null}
-
-              <Button name="EDIT" type="submit" />
-            </Form>
-          )}
-        </Formik>
-      </>
-    );
+const ProfileForm = ({ user, editUser, error }) => {
+  let propsValues = {
+    name: '',
+    email: '',
+    password: '',
+    country: '',
+  };
+  if (user) {
+    const { password, ...userProps } = user;
+    propsValues = { ...propsValues, ...userProps };
   }
-}
+  return (
+    <>
+      <Formik
+        enableReinitialize
+        initialValues={propsValues}
+        validationSchema={validationSchema}
+        onSubmit={(values, isValid) => {
+          if (isValid) {
+            // eslint-disable-next-line no-shadow
+            let user;
+            if (values.password !== '') {
+              user = {
+                name: values.name,
+                email: values.email,
+                password: values.password,
+                country: values.country,
+              };
+            } else {
+              user = {
+                name: values.name,
+                email: values.email,
+                country: values.country,
+              };
+            }
+            editUser(user);
+          }
+        }}
+      >
+        {({ values, errors, handleChange }) => (
+          <Form>
+            <StyledField type="text" name="name" placeholder="Your name" />
+            <StyledField error={errors.email} type="text" name="email" placeholder="Your email" />
+            <StyledError component="span" name="email" />
+            <StyledField
+              error={errors.password}
+              type="password"
+              name="password"
+              placeholder="Change password"
+            />
+            <StyledError component="span" name="password" />
+            <CountryDropdown
+              style={dropdownStyles}
+              defaultOptionLabel="Select a country, man."
+              value={values.country}
+              name="country"
+              onChange={(_, val) => handleChange(val)}
+            />
+            {error ? <CustomError>{error}</CustomError> : null}
+
+            <Button name="EDIT" type="submit" />
+          </Form>
+        )}
+      </Formik>
+    </>
+  );
+};
+ProfileForm.propTypes = {
+  user: PropTypes.shape({
+    name: PropTypes.string,
+    email: PropTypes.string,
+    password: PropTypes.string,
+    country: PropTypes.string,
+  }),
+  editUser: PropTypes.func.isRequired,
+  error: PropTypes.string,
+};
 
 export default ProfileForm;

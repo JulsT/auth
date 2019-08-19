@@ -8,6 +8,7 @@ const initialState = {
   user: null,
   error: null,
   userId: null,
+  editUserSuccess: false,
 };
 
 export default function auth(state = initialState, action) {
@@ -18,6 +19,7 @@ export default function auth(state = initialState, action) {
       return {
         ...state,
         error: null,
+        editUserSuccess: false,
       };
     case actionTypes.SIGNUP_SUCCESS:
     case actionTypes.LOGIN_SUCCESS:
@@ -40,6 +42,7 @@ export default function auth(state = initialState, action) {
       return {
         ...state,
         user: action.payload,
+        editUserSuccess: true,
       };
     case actionTypes.UPDATE_USER_DATA_FAILURE:
       return {

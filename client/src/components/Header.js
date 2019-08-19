@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Navbar from './NavBar';
 
 const Logo = styled.h1`
@@ -38,5 +39,10 @@ const Header = ({ logout, isAuthenticated }) => (
     <Navbar logout={logout} isAuthenticated={isAuthenticated} />
   </StyledHeader>
 );
+
+Header.propTypes = {
+  logout: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+};
 
 export default Header;

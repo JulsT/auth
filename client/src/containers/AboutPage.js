@@ -19,17 +19,17 @@ const AboutPage = () => (
     <Inner>
       {' '}
       <p>It is classic SPA, created with MERN stack.</p>
-      <p>
-        For the backend were used next technologies and packages:
+      <section>
+        <p>For the backend were used next technologies and packages:</p>
         <ul>
           <li>express</li>
           <li>bcryptjs: used to hash passwords before we store them in our database</li>
           <li>jsonwebtoken: used for authorization</li>
           <li>mongoose: used to interact with MongoDB</li>
         </ul>
-      </p>
-      <p>
-        Otherwise, for the frontend were used next technologies and packages:
+      </section>
+      <section>
+        <p>Otherwise, for the frontend were used next technologies and packages:</p>
         <ul>
           <li>redux - responsible for managing the client application&apos;s state</li>
           <li>axios - for making AJAX requests to the server</li>
@@ -37,7 +37,7 @@ const AboutPage = () => (
           <li>validator Yup</li>
           <li>styled with styled-components</li>
         </ul>
-      </p>
+      </section>
     </Inner>
   </Container>
 );

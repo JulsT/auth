@@ -51,6 +51,7 @@ export const logout = () => (dispatch) => {
 };
 
 export const editUser = (data) => (dispatch, getState) => {
+  dispatch({ type: actionTypes.UPDATE_USER_DATA_REQUEST });
   const updatedUser = { data, _id: getState().userId };
   axios
     .put(`${config.API_URL}/users/me`, updatedUser, {

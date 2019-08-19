@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
+import PropTypes from 'prop-types';
 
 const activeTab = css`
   background-color: #ff0000;
@@ -19,20 +20,20 @@ const StyledTab = styled.li`
   white-space: nowrap;
   z-index: 1;
   font-family: Roboto, Open Sans, Helvetica, Arial;
-  ${props => (props.active ? activeTab : '')}
+  ${(props) => (props.active ? activeTab : '')}
 `;
 
-class Tab extends Component {
-  state = {};
+// eslint-disable-next-line no-shadow
+const Tab = ({ activeTab, label, onhandleChangeTab }) => (
+  <StyledTab active={activeTab === label} onClick={() => onhandleChangeTab(label)}>
+    {label}
+  </StyledTab>
+);
 
-  render() {
-    const { activeTab, label, onhandleChangeTab } = this.props;
-    return (
-      <StyledTab active={activeTab === label} onClick={() => onhandleChangeTab(label)}>
-        {label}
-      </StyledTab>
-    );
-  }
-}
+Tab.propTypes = {
+  activeTab: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  onhandleChangeTab: PropTypes.func.isRequired,
+};
 
 export default Tab;

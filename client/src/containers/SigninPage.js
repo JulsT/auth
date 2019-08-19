@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 import { signup, login } from '../actions';
 import Tabs from '../components/Tabs';
 import LoginForm from '../components/LoginForm';
@@ -16,32 +17,32 @@ const Container = styled.div`
   font-size: 1.2rem;
 `;
 
-class SigninPage extends Component {
-  state = {};
+// eslint-disable-next-line no-shadow
+const SigninPage = ({ login, error, signup }) => (
+  <Container>
+    <Tabs>
+      <div label="Sign-In">
+        <LoginForm key="sign-in" login={login} error={error} />
+      </div>
+      <div label="Sign-Up">
+        <SignupForm key="sign-up" signup={signup} error={error} />
+      </div>
+    </Tabs>
+  </Container>
+);
 
-  render() {
-    const { login, error, signup } = this.props;
-    return (
-      <Container>
-        <Tabs>
-          <div label="Sign-In">
-            <LoginForm key="sign-in" login={login} error={error} />
-          </div>
-          <div label="Sign-Up">
-            <SignupForm key="sign-up" signup={signup} error={error} />
-          </div>
-        </Tabs>
-      </Container>
-    );
-  }
-}
+SigninPage.propTypes = {
+  login: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  signup: PropTypes.func.isRequired,
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.isAuthenticated,
   error: state.error,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(
+const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     signup,
     login,

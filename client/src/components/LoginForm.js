@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import * as Yup from 'yup';
 import {
   Form, Field, Formik, ErrorMessage,
 } from 'formik';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Button from './Button';
 import Error from './Error';
 
@@ -34,7 +35,7 @@ const StyledField = styled(Field)`
   appearance: none;
   width: 100%;
   color: gray;
-  border: 1px solid ${props => (props.error ? '#ff0000' : '#c9d0e1')};
+  border: 1px solid ${(props) => (props.error ? '#ff0000' : '#c9d0e1')};
   border-radius: 5px;
   padding: 1rem;
   cursor: pointer;
@@ -47,46 +48,53 @@ const StyledField = styled(Field)`
   }
 `;
 
-class LoginForm extends Component {
-  state = {};
+const LoginForm = ({
+  login, history, tab, error,
+}) => (
+  <>
+    <Formik
+      initialValues={{
+        email: '',
+        password: '',
+      }}
+      validationSchema={validationSchema}
+      onSubmit={(values, isValid) => {
+        if (isValid) {
+          login(values, history);
+        }
+      }}
+    >
+      {({ errors, touched }) => (
+        <Form>
+          <StyledField
+            error={touched.email && errors.email}
+            type="text"
+            name="email"
+            placeholder="Your email"
+          />
+          <StyledError component="span" name="email" />
+          <StyledField
+            error={touched.password && errors.password}
+            type="password"
+            name="password"
+            placeholder="Your password"
+          />
+          <StyledError component="span" name="password" />
+          <Error tab={tab} message={error} />
+          <Button name="SIGN-IN" />
+        </Form>
+      )}
+    </Formik>
+  </>
+);
 
-  render() {
-    const {
-      login, history, tab, error,
-    } = this.props;
-    return (
-      <>
-        <Formik
-          initialValues={{
-            email: '',
-            password: '',
-          }}
-          validationSchema={validationSchema}
-          onSubmit={(values, isValid) => {
-            if (isValid) {
-              login(values, history);
-            }
-          }}
-        >
-          {({ errors }) => (
-            <Form>
-              <StyledField error={errors.email} type="text" name="email" placeholder="Your email" />
-              <StyledError component="span" name="email" />
-              <StyledField
-                error={errors.password}
-                type="password"
-                name="password"
-                placeholder="Your password"
-              />
-              <StyledError component="span" name="password" />
-              <Error tab={tab} error={error} />
-              <Button name="SIGN-IN" />
-            </Form>
-          )}
-        </Formik>
-      </>
-    );
-  }
-}
+LoginForm.propTypes = {
+  login: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }),
+  tab: PropTypes.string.isRequired,
+  error: PropTypes.string,
+};
 
 export default withRouter(LoginForm);

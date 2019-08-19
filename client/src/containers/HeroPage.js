@@ -1,16 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Slider from '../components/Slider';
 
-class HeroPage extends Component {
-  state = {};
-
-  render() {
-    return (
-      <>
-        <Slider />
-      </>
-    );
-  }
-}
+const HeroPage = () => (
+  <>
+    <Slider />
+  </>
+);
 
 export default HeroPage;

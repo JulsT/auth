@@ -5,7 +5,8 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { logout } from './actions';
+import PropTypes from 'prop-types';
+import { logout, recieveUser } from './actions';
 import PrivateRoute from './components/PrivateRoute';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -22,7 +23,14 @@ const Container = styled.div`
 `;
 
 class App extends Component {
-  state = {};
+  componentDidMount() {
+    const token = localStorage.getItem('token');
+    // eslint-disable-next-line no-shadow
+    const { recieveUser } = this.props;
+    if (token) {
+      recieveUser(token);
+    }
+  }
 
   render() {
     // eslint-disable-next-line react/prop-types
@@ -53,11 +61,17 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+App.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+  logout: PropTypes.func.isRequired,
+  recieveUser: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
   isAuthenticated: state.isAuthenticated,
   token: state.token,
 });
-const mapDispatchToProps = dispatch => bindActionCreators({ logout }, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({ logout, recieveUser }, dispatch);
 
 export default connect(
   mapStateToProps,
