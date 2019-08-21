@@ -13,6 +13,7 @@ const initialState = {
 
 export default function auth(state = initialState, action) {
   switch (action.type) {
+    case actionTypes.FETCH_USER_DATA:
     case actionTypes.LOGIN_REQUEST:
     case actionTypes.SIGNUP_REQUEST:
     case actionTypes.UPDATE_USER_DATA_REQUEST:
@@ -31,7 +32,7 @@ export default function auth(state = initialState, action) {
         isAuthenticated: true,
         error: null,
       };
-    case actionTypes.FETCH_USER_DATA:
+    case actionTypes.FETCH_USER_DATA_SUCCESS:
       return {
         ...state,
         user: action.payload,
@@ -60,7 +61,7 @@ export default function auth(state = initialState, action) {
         ...state,
         isAuthenticated: false,
         token: '',
-        user: '',
+        user: null,
         userId: '',
       };
     default:

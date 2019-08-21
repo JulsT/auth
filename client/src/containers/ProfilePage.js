@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import ProfileForm from '../components/ProfileForm';
-import { editUser } from '../actions';
+import { editUserRequest } from '../actions';
 import Error from '../components/Error';
 
 const Container = styled.div`
@@ -20,13 +20,13 @@ const ProfilePage = ({
   // eslint-disable-next-line no-shadow
   user,
   // eslint-disable-next-line no-shadow
-  editUser,
+  editUserRequest,
   error,
   editUserSuccess,
 }) => (
   <Container>
     Edit your Profile
-    <ProfileForm user={user} editUser={editUser} error={error} />
+    <ProfileForm user={user} editUser={editUserRequest} error={error} />
     <Error successMsg={editUserSuccess} message="User edited" />
   </Container>
 );
@@ -38,7 +38,7 @@ ProfilePage.propTypes = {
     password: PropTypes.string,
     country: PropTypes.string,
   }),
-  editUser: PropTypes.func.isRequired,
+  editUserRequest: PropTypes.func.isRequired,
   error: PropTypes.string,
   editUserSuccess: PropTypes.bool,
 };
@@ -52,7 +52,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
-    editUser,
+    editUserRequest,
   },
   dispatch,
 );
